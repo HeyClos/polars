@@ -39,6 +39,32 @@ expand the capabilities over time.
 
     Please refer to the documentation of your preferred client to connect to the MCP server.
 
+### Local MCP server for the installed version
+
+The remote server answers from the published documentation for the latest release. If your project
+pins an older Polars version, or you want the model to verify the exact signature of a method before
+calling it, the community-maintained [polars-mcp](https://github.com/r-brink/polars-mcp) server runs
+locally and introspects the Polars package installed in your environment. It exposes tools to search
+the API by keyword and to fetch the docstring and signature of a specific method, so the answer
+always matches the version your code runs against.
+
+```json
+{
+  "mcpServers": {
+    "polars-mcp": {
+      "command": "uvx",
+      "args": ["--with", "polars==2.1.0", "polars-mcp"]
+    }
+  }
+}
+```
+
+Pin `polars` to the same version as your project, or omit the version to use the latest release. The
+[Polars skill](#polars-skill) detects this server when it is available and uses it to check method
+names and signatures before writing code, which helps most with renamed or less common APIs. The two
+servers complement each other: use the remote server for questions about concepts, the user guide,
+and Polars Cloud, and the local server to confirm what the installed version actually accepts.
+
 ## System prompt
 
 Many LLMs allow you to provide a system prompt that is included with every individual prompt you
